@@ -4,6 +4,11 @@ import { Box, Typography, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import StoreList from "../components/StoreList";
 import { getStores, deleteStore } from "../api/stores";
+import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import Badge from "@mui/material/Badge";
 
 const StoreListPage = () => {
   const [stores, setStores] = useState([]);
@@ -29,13 +34,24 @@ const StoreListPage = () => {
     fetchStores();
   }, []);
 
+  const filteredStores = useMemo(() => {
+    if (!search.trim()) return stores;
+    const lower = search.toLowerCase();
+    return stores.filter(
+      (s) =>
+        s.name?.toLowerCase().includes(lower) ||
+        s.owner?.toLowerCase().includes(lower) ||
+        s.email?.toLowerCase().includes(lower)
+    );
+  }, [stores, search]);
+
   // Client-side pagination logic
-  const paginatedStores = stores.slice(
+  const paginatedStores = filteredStores.slice(
     page * rowsPerPage,
     (page + 1) * rowsPerPage
   );
 
-  const totalCount = stores.length;
+  const totalCount = filteredStores.length;
 
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
@@ -47,7 +63,7 @@ const StoreListPage = () => {
   };
 
   const handleEdit = (store) => {
-    navigate(`/edit/${store._id}`, { state: { store } });
+    navigate(`/stores/${store._id}/edit`, { state: { store } });
   };
 
   const handleDelete = async (id) => {
@@ -60,36 +76,77 @@ const StoreListPage = () => {
     }
   };
 
-  const filteredStores = useMemo(() => {
-    if (!search.trim()) return stores;
-    const lower = search.toLowerCase();
-    return stores.filter(
-      (s) =>
-        s.name?.toLowerCase().includes(lower) ||
-        s.owner?.toLowerCase().includes(lower) ||
-        s.email?.toLowerCase().includes(lower)
-    );
-  }, [stores, search]);
-
   return (
     <Box>
-      <Typography variant="h5" gutterBottom>
-        Store Dashboard ({filteredStores.length} stores)
+      <Typography
+        variant="h5"
+        gutterBottom
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          lineHeight: 1.3,
+        }}
+      >
+        Store Dashboard
+        <Badge
+          badgeContent={filteredStores.length}
+          color="primary"
+          sx={{
+            "& .MuiBadge-badge": {
+              fontSize: "0.75rem",
+              minWidth: 20,
+              height: 20,
+              borderRadius: "10px",
+              fontWeight: 600,
+              boxShadow: (theme) => `0 2px 4px ${theme.palette.primary.main}20`,
+            },
+          }}
+        />
       </Typography>
 
-      <Box sx={{ mb: 2, maxWidth: 400 }}>
+      <Box sx={{ mb: 2, maxWidth: 480 }}>
         <TextField
           fullWidth
-          label="Search Stores (Name, Owner, or Email)"
+          size="small"
           variant="outlined"
+          placeholder="Search stores by name, owner, or email"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          // Optional: Add an icon
           InputProps={{
             startAdornment: (
-              <Box sx={{ mr: 1, color: "action.active" }}>🔍</Box>
+              <InputAdornment position="start">
+                <SearchIcon color="action" />
+              </InputAdornment>
             ),
+            endAdornment: search ? (
+              <InputAdornment position="end">
+                <IconButton
+                  size="large"
+                  edge="end"
+                  onClick={() => setSearch("")}
+                >
+                  <ClearIcon fontSize="small" />
+                </IconButton>
+              </InputAdornment>
+            ) : null,
           }}
+          sx={(theme) => ({
+            "& .MuiOutlinedInput-root": {
+              borderRadius: 999,
+              backgroundColor: theme.palette.action.hover,
+              "& fieldset": {
+                borderColor: "transparent",
+              },
+              "&:hover fieldset": {
+                borderColor: theme.palette.divider,
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: theme.palette.primary.main,
+                boxShadow: `0 0 0 1px ${theme.palette.primary.main}33`,
+              },
+            },
+          })}
         />
       </Box>
 
