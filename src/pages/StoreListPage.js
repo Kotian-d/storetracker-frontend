@@ -15,7 +15,7 @@ const StoreListPage = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(100);
   const navigate = useNavigate();
 
   const fetchStores = async () => {

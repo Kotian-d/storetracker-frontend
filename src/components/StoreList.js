@@ -24,6 +24,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import PersonIcon from "@mui/icons-material/Person";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PhoneIcon from "@mui/icons-material/Phone";
+import { useAuth } from "../contexts/AuthContext";
 
 // Styled Components
 const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
@@ -99,6 +100,7 @@ const StoreList = ({
   onPageChange,
   onRowsPerPageChange,
 }) => {
+  const { user } = useAuth();
   if (loading) {
     return (
       <LoadingContainer>
@@ -242,6 +244,7 @@ const StoreList = ({
                     />
                   )}
                 </StyledTableCell>
+
                 <StyledTableCell sx={{ paddingRight: 3 }}>
                   <Box
                     sx={{ display: "flex", gap: 1, justifyContent: "flex-end" }}
@@ -258,21 +261,26 @@ const StoreList = ({
                     >
                       Edit
                     </ActionButton>
-                    <ActionButton
-                      variant="outlined"
-                      startIcon={<DeleteIcon />}
-                      onClick={() => handleDelete(store._id)}
-                      sx={(theme) => ({
-                        color: theme.palette.error.main,
-                        borderColor: theme.palette.error.main,
-                        "&:hover": {
-                          backgroundColor: alpha(theme.palette.error.main, 0.1),
+                    {user?.role === "admin" && (
+                      <ActionButton
+                        variant="outlined"
+                        startIcon={<DeleteIcon />}
+                        onClick={() => handleDelete(store._id)}
+                        sx={(theme) => ({
+                          color: theme.palette.error.main,
                           borderColor: theme.palette.error.main,
-                        },
-                      })}
-                    >
-                      Delete
-                    </ActionButton>
+                          "&:hover": {
+                            backgroundColor: alpha(
+                              theme.palette.error.main,
+                              0.1
+                            ),
+                            borderColor: theme.palette.error.main,
+                          },
+                        })}
+                      >
+                        Delete
+                      </ActionButton>
+                    )}
                   </Box>
                 </StyledTableCell>
               </StyledTableRow>
@@ -308,7 +316,7 @@ const StoreList = ({
         <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
           <TablePagination
             component="div"
-            count={totalCount} 
+            count={totalCount}
             page={page}
             onPageChange={onPageChange}
             rowsPerPage={rowsPerPage}

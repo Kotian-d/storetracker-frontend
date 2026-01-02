@@ -151,7 +151,7 @@ const UserMenu = () => {
 };
 
 const AppContent = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   return (
     <>
@@ -168,12 +168,16 @@ const AppContent = () => {
               <NavButton to="/dashboard">
                 <DashboardIcon fontSize="small" /> Dashboard
               </NavButton>
+
               <NavButton to="/stores">
                 <List fontSize="small" /> Stores
               </NavButton>
-              <NavButton to="/stores/new">
-                <Add fontSize="small" /> New
-              </NavButton>
+              {user?.role === "admin" && (
+                <NavButton to="/stores/new">
+                  <Add fontSize="small" /> New
+                </NavButton>
+              )}
+
               <UserMenu />
             </Box>
           )}

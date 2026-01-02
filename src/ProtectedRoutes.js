@@ -12,5 +12,11 @@ export const ProtectedRoute = ({ children }) => {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
+  console.log("User role:", user);
+  if((user && user.role !== "admin" && location.pathname === "/stores/new") ||
+     (user && user.role !== "admin" && location.pathname.includes("/edit"))) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
   return children;
 };
