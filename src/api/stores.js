@@ -71,6 +71,8 @@ export const getProducts = async () => api.get("/api/products");
 
 export const getUsers = async () => api.get("/api/users");
 
+export const getProfile = async () => api.get("/api/auth/profile");
+
 export const updateStore = async (id, data, imageFile) => {
   // For updating, we can use a simpler PUT for text/location updates
   if (!imageFile) {

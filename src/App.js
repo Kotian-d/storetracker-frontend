@@ -31,6 +31,7 @@ import LoginPage from "./components/LoginPage";
 import { AuthProvider, useAuth } from "./contexts/AuthContext.js";
 import { ProtectedRoute } from "./ProtectedRoutes";
 import { useNavigate } from "react-router-dom";
+import ProfilePage from "./pages/ProfilePage.jsx";
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   boxShadow: `0 4px 20px ${alpha(theme.palette.common.black, 0.1)}`,
@@ -123,7 +124,7 @@ const UserMenu = () => {
           },
         }}
       >
-        <MenuItem onClick={handleClose} sx={{ px: 2, py: 1.5 }}>
+        <MenuItem onClick={() => {navigate("/profile"); setAnchorEl(null);}} sx={{ px: 2, py: 1.5 }}>
           <Typography variant="body2" fontWeight={600}>
             Profile
           </Typography>
@@ -231,6 +232,14 @@ const AppContent = () => {
                 to={isAuthenticated ? "/dashboard" : "/login"}
                 replace
               />
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
             }
           />
           <Route
