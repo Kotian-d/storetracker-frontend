@@ -42,7 +42,7 @@ const StoreListPage = () => {
     if (showTechniciansOnly) {
       list = list.filter(
         (s) =>
-          s.role === "technician" || s.type === "technician" || s.isTechnician
+          s.isTechnician
       );
     }
 
@@ -53,7 +53,7 @@ const StoreListPage = () => {
       (s) =>
         s.name?.toLowerCase().includes(lower) ||
         s.owner?.toLowerCase().includes(lower) ||
-        s.contact?.toLowerCase().includes(lower)
+        s.contact?.includes(lower)
     );
   }, [stores, search, showTechniciansOnly]);
 
