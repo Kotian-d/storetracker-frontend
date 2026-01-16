@@ -32,6 +32,7 @@ import { AuthProvider, useAuth } from "./contexts/AuthContext.js";
 import { ProtectedRoute } from "./ProtectedRoutes";
 import { useNavigate } from "react-router-dom";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import StockListPage from "./pages/stockListPage.jsx";
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   boxShadow: `0 4px 20px ${alpha(theme.palette.common.black, 0.1)}`,
@@ -170,6 +171,9 @@ const AppContent = () => {
                 <DashboardIcon fontSize="small" /> Dashboard
               </NavButton>
 
+              <NavButton to="/stocks">
+                <List fontSize="small" /> Stock List
+              </NavButton>
               <NavButton to="/stores">
                 <List fontSize="small" /> Stores
               </NavButton>
@@ -196,6 +200,14 @@ const AppContent = () => {
             element={
               <ProtectedRoute>
                 <MapPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/stocks"
+            element={
+              <ProtectedRoute>
+                <StockListPage />
               </ProtectedRoute>
             }
           />

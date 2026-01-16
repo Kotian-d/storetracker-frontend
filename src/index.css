@@ -13,3 +13,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+*{
+  overflow: auto;
+  scrollbar-width: thin; 
+  scrollbar-color: #b7b7b7 transparent; 
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*:-webkit-scrollbar-thumb {
+  background-color: #b7b7b7;
+  border-radius: 6px;
+}

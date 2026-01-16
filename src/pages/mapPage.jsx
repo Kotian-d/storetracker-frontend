@@ -74,7 +74,6 @@ const MapPage = () => {
       setSearchResults(data); // keep all features
     } else {
       setSearchResults([]);
-      setSearchResults(null);
       alert("No results");
     }
   };

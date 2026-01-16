@@ -53,7 +53,7 @@ const StoreListPage = () => {
       (s) =>
         s.name?.toLowerCase().includes(lower) ||
         s.owner?.toLowerCase().includes(lower) ||
-        s.contact?.includes(lower)
+        s.contact?.includes(lower) || s.technicianName?.toLowerCase().includes(lower)
     );
   }, [stores, search, showTechniciansOnly]);
 
