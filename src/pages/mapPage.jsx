@@ -11,7 +11,6 @@ import {
   Grid,
   Autocomplete,
   Card,
-  CardContent,
   IconButton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";

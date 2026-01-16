@@ -24,8 +24,6 @@ import {
   Chip,
   alpha,
   styled,
-  InputAdornment,
-  IconButton,
 } from "@mui/material";
 import {
   LocationOn,

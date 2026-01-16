@@ -43,7 +43,7 @@ const LoginPage = () => {
       // Navigation is handled inside AuthContext.login()
     } catch (error) {
       console.error("Login failed:", error);
-      alert(error); // Show error to user
+      setError(error);
     } finally {
       setIsLoading(false);
     }

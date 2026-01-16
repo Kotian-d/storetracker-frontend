@@ -27,7 +27,7 @@ import {
 import StoreListPage from "./pages/StoreListPage";
 import StoreForm from "./components/StoreForm";
 import MapPage from "./pages/mapPage";
-import LoginPage from "./components/LoginPage";
+import LoginPage from "./pages/LoginPage.js";
 import { AuthProvider, useAuth } from "./contexts/AuthContext.js";
 import { ProtectedRoute } from "./ProtectedRoutes";
 import { useNavigate } from "react-router-dom";

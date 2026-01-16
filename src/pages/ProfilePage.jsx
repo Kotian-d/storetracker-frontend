@@ -18,7 +18,6 @@ import {
   Divider,
 } from "@mui/material";
 import {
-  Person,
   Phone,
   Email,
   LocationOn,
