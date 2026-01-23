@@ -1,5 +1,5 @@
 // ExcelImportPage.jsx
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -17,6 +17,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import * as XLSX from "xlsx";
+import { getStores } from "../api/stores";
 
 const COLUMNS = [
   "Material Name",
@@ -42,6 +43,17 @@ const COLUMNS = [
 const StoreListPage = () => {
   const [rows, setRows] = useState([]);
   const [selectedPartner, setSelectedPartner] = useState("ALL");
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    // Reset selected partner when rows change
+    const fetchUsers = async () => {
+      const user = await getStores();
+      setUsers(user.data || []);
+      setSelectedPartner("ALL");
+    };
+    fetchUsers();
+  }, []);
 
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
@@ -60,6 +72,7 @@ const StoreListPage = () => {
     setSelectedPartner("ALL");
   };
 
+  /*
   // Unique Partner/Siebel IDs for dropdown
   const partnerOptions = useMemo(() => {
     const ids = new Set();
@@ -69,12 +82,12 @@ const StoreListPage = () => {
     });
     return Array.from(ids);
   }, [rows]); // [web:13][web:16]
-
+*/
   // Filtered rows based on dropdown
   const visibleRows = useMemo(() => {
     if (selectedPartner === "ALL") return rows;
     return rows.filter(
-      (r) => (r["Partner/Siebel ID"] || "UNKNOWN") === selectedPartner
+      (r) => (r["Partner/Siebel ID"] || "UNKNOWN") === selectedPartner.split("-")[0].trim(),
     );
   }, [rows, selectedPartner]);
 
@@ -108,11 +121,13 @@ const StoreListPage = () => {
             onChange={(e) => setSelectedPartner(e.target.value)}
           >
             <MenuItem value="ALL">All Partners</MenuItem>
-            {partnerOptions.map((id) => (
-              <MenuItem key={id} value={id}>
-                {id}
+            {users.map((user) => (
+              user.technicianId && (
+              <MenuItem key={user._id} value={user.technicianId}>
+                {user.technicianId}
+                {user.name ? ` - ${user.name}` : ""}
               </MenuItem>
-            ))}
+            )))}
           </Select>
         </FormControl>
       </Box>
